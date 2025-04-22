@@ -1,0 +1,41 @@
+﻿@model ImPulse_WebApp.Modules.UserSignInModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+<link rel="stylesheet" href="~/css/signup.css" asp-append-version="true">
+<div class="form-container">
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="back-button">← Back to Home</a>
+        <form asp-controller="Registration" asp-action="SignIn" method="post" class="registration-form">
+            <h1>Sign In</h1>
+            <div class="error-container" asp-validation-summary="All"></div>
+            <div class="form-group">
+                <label>Usertag</label>
+                <input asp-for="Usertag" type="text" required />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-container">
+                <input asp-for="Password" type="password" required />
+                <img src="~/imgs/OpenEye.png" alt="" class="pass-eye">
+            </div>
+            </div>
+            <button type="submit" class="submit-button">Sign In</button>
+        </form>
+        <a asp-area="" asp-controller="Registration" asp-action="SignUp" class="already-account">Haven't an account yet? Sign Up</a>
+    </div>
+
+    <script>
+        document.querySelectorAll('.pass-eye').forEach(eyeElement => {
+    eyeElement.addEventListener('click', () => {
+        const inp = eyeElement.parentElement.querySelector('input');
+        if (inp.getAttribute('type') === 'password') {
+            eyeElement.setAttribute('src', '/imgs/CloseEye.png');
+            inp.setAttribute('type', 'text');
+        }
+        else if (inp.getAttribute('type') === 'text') {
+            eyeElement.setAttribute('src', '/imgs/OpenEye.png');
+            inp.setAttribute('type', 'password');
+        }
+    });
+});
+    </script>

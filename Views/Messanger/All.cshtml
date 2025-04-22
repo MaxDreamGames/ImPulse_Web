@@ -1,0 +1,84 @@
+﻿@model Dictionary<string, string>
+@{
+    ViewData["Title"] = "I'mPulse Messenger";
+}
+
+<link rel="stylesheet" href="~/css/all.css" asp-append-version="true">
+<div class="messenger-window notranslate" translate="no">
+        <p style="display: none;" id="current-usertag">@Model["I"]</p>
+    <main class="messenger-main">
+        <aside class="chat-panel" id="chat-panel">
+            <div class="burger-menu">
+                <button class="burger-button">☰</button>
+                <input type="search" class="search-input" id="search-input" placeholder="Search">
+            </div>
+            <div class="chat-empty-block" id="chat-empty-block">
+                <h2>You haven't texted to anyone yet ;}</h2>
+                <p>Search anyone to chat with</p>
+            </div>
+            <div class="chat-list" id="chat-list">
+                <div class="chat-item">
+                    <img src="" alt="" class="chat-avatar">
+                    <div class="chat-details">
+                        <div class="chat-item-header">
+                            <h3 class="chat-name">Chat Name</h3>
+                        </div>
+                        <div class="chat-preview">
+                            <span class="chat-status">
+                                <img src="~/imgs/Read.png" alt="" class="status-icon">
+                            </span>
+                            <p class="chat-last-message">Hello! How are you?</p>
+                        </div>
+                        <div class="chat-time">10:45 AM</div>
+                    </div>
+                    <div class="chat-notification">
+                        <span class="unread-icon">3</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="chat-search-list" id="chat-search-list"></div>
+        </aside>
+
+        <aside class="side-menu hidden">
+            <div class="menu-header">
+                <h2>Menu</h2>
+            </div>
+            <ul class="menu-options">
+                <li class="menu-item">Settings</li>
+                <li class="menu-item">Profile</li>
+                <li class="menu-item">Logout</li>
+            </ul>
+        </aside>
+        <div class="welcome-block" id="welcome-block">
+            <h2>You haven't started chatting yet ;)</h2>
+            <p>Choose who you would like to talk with</p>
+        </div>
+        <div class="chat-zone" id="chat-zone" style="display: none;">
+            <div class="chat-header">
+                <div class="chat-info">
+                    <img src="" alt="" class="chat-avatar" id="chat-avatar">
+                    <div class="chat-details">
+                        <h2 class="chat-name" id="chat-name">Username</h2>
+                        <p style="display: none;" id="chat-usertag"></p>
+                        <p style="display: none;" id="chat-userID"></p>
+                        <p class="chat-status" id="chat-status"></p>
+                    </div>
+                </div>
+                <button class="chat-menu-button">☰</button>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+            
+
+            </div>
+            <div class="chat-input">
+                <textarea placeholder="Type your message..." id="message-input"></textarea>
+                <button class="send-button" id="send-button">Send</button>
+            </div>
+        </div>
+
+    </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script src="~/js/all.js" asp-append-version="true"></script>

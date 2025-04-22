@@ -1,0 +1,176 @@
+﻿@{
+  ViewData["Title"] = "I'mPulse";
+}
+
+<link rel="stylesheet" href="~/css/index.css" asp-append-version="true">
+<header class="index-header">
+  <div class="main-name">
+    <img src="~/imgs/ImpulseIcon.png" alt="Logo" class="logo" />
+    <a class="title notranslate" asp-area="" asp-controller="Home" asp-action="Index">I'mPulse</a>
+  </div>
+  <nav class="navigation-panel">
+    <ul>
+      @* <li class="nav-item" id="about-in-hat"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About us</a></li> *@
+          <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">About us</a></li>
+
+      @* <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Developers">Developers</a> *@
+      <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">Developers</a>
+      </li>
+      @* <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Involving">Involving</a> *@
+      <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">Involving</a>
+      </li>
+      @* <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a></li> *@
+      <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">Contacts</a></li>
+    </ul>
+  </nav>
+  <div class="signing">
+    <a class="signing-item" id="sign-up-in-hat" asp-area="" asp-controller="Registration" asp-action="SignUp">Sign Up</a>
+    <a class="signing-item" asp-area="" asp-controller="Registration" asp-action="SignIn">Sign In</a>
+  </div>
+  <div class="burger-icon" id="burger-icon" hidden>
+    <p>☰</p>
+  </div>
+  <aside class="side-menu" id="side-menu" hidden>
+    <div class="side-menu-bg" id="side-menu-bg"></div>
+    <div class="side-menu-content" id="side-menu-content">
+      <div class="signing-box">
+        <a class="signing-item" id="sign-up-in-burger" asp-area="" asp-controller="Registration" asp-action="SignUp">Sign Up</a>
+        <a class="signing-item" asp-area="" asp-controller="Registration" asp-action="SignIn">Sign In</a>
+      </div>
+      <div class="nav-links">
+        <ul>
+          @* <li class="nav-item" id="about-in-burger"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About us</a></li> *@
+          <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">About us</a></li>
+          @* <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Developers">Developers</a></li> *@
+          <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">Developers</a></li>
+          @* <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Involving">Involving</a></li> *@
+          <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">Involving</a></li>
+          @* <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a></li> *@
+          <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Error" asp-action="ComingSoon">Contacts</a></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+</header>
+<main class="container">
+  <!-- Приветственный блок -->
+  <section class="welcome-section">
+    <div class="welcome-image">
+      <img src="~/imgs/ImpulseIcon.png" alt="Welcome image" />
+    </div>
+    <div class="welcome-content">
+      <h1 class="welcome-title">Welcome to I'mPulse!</h1>
+      <p class="welcome-description">
+        I'mPulse is a new messenger that combines simplicity, speed and security. Chat with your friends, exchange
+        messages and stay in touch at any time!
+      </p>
+      <div class="welcome-buttons">
+        <a asp-area="" asp-controller="Registration" asp-action="SignIn" class="btn btn-primary">Sign In</a>
+        @* <a asp-area="" asp-controller="Home" asp-action="About" class="btn btn-secondary">More</a> *@
+        <a asp-area="" asp-controller="Error" asp-action="ComingSoon" class="btn btn-secondary">More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок преимуществ -->
+  <section class="features-section">
+    <div class="feature">
+    <div class="feature-icon"><img src="/imgs/speed.webp" alt=""></div>
+    <h3 class="feature-title">Speed</h3>
+    <p class="feature-description">
+      Enjoy lightning-fast message delivery with I'mPulse. Our optimized servers ensure that your messages reach their destination instantly, no matter where you are.
+    </p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon"><img src="/imgs/cybersecurity.webp" alt=""></div>
+    <h3 class="feature-title">Security</h3>
+    <p class="feature-description">
+      Your privacy is our priority. I'mPulse uses end-to-end encryption to protect your messages and personal data from unauthorized access.
+    </p>
+  </div>
+  <div class="feature">
+    <div class="feature-icon"><img src="/imgs/simplicity.jpg" alt=""></div>
+    <h3 class="feature-title">Simplicity</h3>
+    <p class="feature-description">
+      With a clean and intuitive interface, I'mPulse makes communication effortless. Whether you're tech-savvy or a beginner, you'll feel right at home.
+    </p>
+  </div>
+  </section>
+
+  <!-- Блок скриншотов -->
+  <section class="screenshots-section">
+    <h2 class="section-title">What does it look like?</h2>
+    <div class="screenshots-grid">
+      <div><img src="/imgs/regisExem.png" alt="Скриншот 1" class="screenshot"></div>
+      <div><img src="/imgs/simpleExem.png" alt="Скриншот 2" class="screenshot"></div>
+      <div><img src="/imgs/chatExem.png" alt="Скриншот 3" class="screenshot"></div>
+    </div>
+  </section>
+
+
+
+  <!-- Блок новостей -->
+  <section class="news-section">
+    <h2 class="section-title">Last news</h2>
+    <div class="news-item">
+      <h3 class="news-title">The new version of I'mPulse is already available!</h3>
+      <p class="news-description">Fixed bugs and improved performance.</p>
+    </div>
+  </section>
+</main>
+<footer class="footer">
+  <div class="footer-content">
+    <!-- Логотип и описание -->
+    <div class="footer-brand">
+      <img src="/imgs/ImpulseIcon.png" alt="I'mPulse Logo" class="footer-logo">
+      <p class="footer-description">
+        I'mPulse is a new messenger that combines simplicity, speed and security.
+      </p>
+    </div>
+
+    <!-- Полезные ссылки -->
+    <div class="footer-links">
+      <h4 class="footer-title">Links</h4>
+      <ul>
+       @* <li id="about-in-footer"><a asp-area="" asp-controller="Home" asp-action="About">About us</a></li> *@
+       <li id="about-in-footer"><a asp-area="" asp-controller="Error" asp-action="ComingSoon">About us</a></li>
+      @* <li><a asp-area="" asp-controller="Home" asp-action="Developers">Developers</a></li> *@
+      <li><a asp-area="" asp-controller="Error" asp-action="ComingSoon">Developers</a></li>
+      @* <li><a asp-area="" asp-controller="Home" asp-action="Involving">Involving</a></li> *@
+      <li><a asp-area="" asp-controller="Error" asp-action="ComingSoon">Involving</a></li>
+      @* <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a></li> *@
+      <li><a asp-area="" asp-controller="Error" asp-action="ComingSoon">Contacts</a></li>
+        <li><a asp-area="" asp-controller="Error" asp-action="ComingSoon">Privacy policy</a></li>
+        <li><a asp-area="" asp-controller="Error" asp-action="ComingSoon">Terms of use</a></li>
+      </ul>
+    </div>
+
+    <!-- Социальные сети -->
+    <div class="footer-social">
+      <h4 class="footer-title">We're on social media</h4>
+      <div class="social-icons notranslate">
+        <a href="https://discord.gg/XUGeeCEk"><img src="/imgs/discord-icon.png" alt="Discord">Discord</a>
+        <a href="https://t.me/MaxDream_Corp"><img src="/imgs/telegram-icon.webp" alt="Telegram">Telegram</a>
+        @* <a href="#"><img src="twitter-icon.png" alt="Twitter"></a> *@
+        <a href="https://www.instagram.com/maxdream_corp/"><img src="/imgs/instagram-icon.png" alt="Instagram">Instagram</a>
+      </div>
+    </div>
+
+    <!-- Форма подписки -->
+    @* <div class="footer-newsletter">
+      <h4 class="footer-title">Подпишитесь на новости</h4>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Ваш email" required>
+        <button type="submit">Подписаться</button>
+      </form>
+    </div>
+  </div> *@
+
+  <!-- Авторские права -->
+  <div class="footer-bottom notranslate">
+    <p>© 2025 I'mPulse. All rights reserved.</p>
+    <a href="#" class="back-to-top">Up</a>
+  </div>
+</footer>
+</div>
+<script src="~/js/index.js" asp-append-version="true"></script>

@@ -1,0 +1,10 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Oops";
+}
+<link rel="stylesheet" href="~/css/error.css" asp-append-version="true">
+<div class="container-err">
+    <h1 class="title">Oops!</h1>
+    <p class="message">Something went wrong...<br> Try refreshing the page or come back later.</p>
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="btn">Go Home</a>
+</div>

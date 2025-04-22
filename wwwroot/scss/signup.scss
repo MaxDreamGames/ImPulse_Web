@@ -1,0 +1,210 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background: radial-gradient(circle at center, #141414, #0a0a0a);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.form-container {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 400px;
+  margin: auto 5%;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+
+  .back-button {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #00ffff;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #ff00ff;
+    }
+  }
+
+  .registration-form {
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+
+      label {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      cite {
+        display: block;
+        font-size: 0.8rem;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        color: #9bffff;
+      }
+      
+      input {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: 2px solid rgba(0, 255, 255, 0.5);
+        border-radius: 5px;
+        background: transparent;
+        color: #fff;
+        outline: none;
+        transition: border 0.3s;
+        
+        &:focus {
+          border-color: #ff00ff;
+        }
+      }
+      
+      .input-container {
+        position: relative;
+      }
+      
+      #pass-label:hover::after, #pass-label:active::after {
+        
+        content: attr(tooltip);
+        position: absolute;
+        color: #9bffff;
+        font-size: 0.8rem;
+        background-color: rgb(20, 20, 20);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        border-radius: 15px;
+        opacity: 1;
+        z-index: 99;
+        padding: 0.4rem;
+        margin-right: 20px;
+      }
+
+      .pass-eye {
+        display: block;
+        width: 35px;
+        padding: 0.2rem;
+        position: absolute;
+        top: 12%;
+        right: 0px;
+        cursor: pointer;
+      }
+    }
+
+    .submit-button {
+      width: 100%;
+      margin: 0 auto 5px;
+      padding: 0.8rem;
+      font-size: 1rem;
+      color: #fff;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      border: none;
+      border-radius: 25px;
+      font-family: 'Roboto Mono', monospace;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.5);
+
+      &[disabled]{
+        color: #0a0a0a;
+        opacity: 0.4;
+      }
+      &:hover {
+        background: linear-gradient(90deg, #ff00ff, #00ffff);
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .already-account {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #00ffff;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #ff00ff;
+    }
+  }
+
+  .error-container {
+    display: inline-block;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #f24242;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .error-msg {
+    display: inline-block;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #f24242;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+}
+
+.pass-info-ico {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: 8px;
+}
+
+.g-recaptcha {
+  margin: 25px auto;
+
+  div,
+  iframe {
+    min-width: 220px !important;
+  }
+
+  label,
+  .rc-anchor-label,
+  .rc-anchor-checkbox-label {
+    width: 75px !important;
+  }
+}
+
+@media (max-height: 700px) {
+  body {
+    align-items: start;
+    padding: 3% 0;
+  }
+}
+
+@media (max-width: 450px) {
+
+  h1 {
+    font-size: 1.3rem !important;
+
+  }
+}
+
+@media (max-width: 300px) {
+
+  h1 {
+    font-size: 1.0rem !important;
+
+  }
+}
