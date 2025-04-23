@@ -171,12 +171,14 @@ document.getElementById('search-input').addEventListener('focusout', () => {
 document.getElementById('search-input').addEventListener('input', () => searchUsers());
 document.getElementById('send-button').addEventListener('click', () => sendMessage());
 document.getElementById('message-input').addEventListener('keyup', (e) => {
-    if (e.code == 'Enter') {
+    if (e.code == 'Enter' && e.shiftKey) {
+        document.getElementById('message-input').value += '\n';
+        e.preventDefault();
+    }
+    else if (e.code == 'Enter') {
         document.getElementById('message-input').value = document.getElementById('message-input').value.trim();
         sendMessage();
-    }
-    else if (e.code == 'Enter' && e.shiftKey) {
-        document.getElementById('message-input').value += '\n';
+        e.preventDefault();
     }
 
 });

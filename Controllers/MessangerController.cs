@@ -107,11 +107,21 @@ namespace ImPulse_WebApp.Controllers
             var session = databaseConnector.Request($"select IsOnline, SessionID from UserSessions where UserID = {userId} order by SessionID desc;");
             if (session.Rows.Count > 0)
             {
-                databaseConnector.Request($"UPDATE UserSessions SET ExpiresAt = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE SessionID = {session.Rows[0][1].ToString()}");
+                databaseConnector.Request($"UPDATE UserSessions SET ExpiresAt = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE SessionID = {session.Rows[0][1]}");
                 if (session.Rows[0][0].ToString() == "True")
                 {
-                    databaseConnector.Request($"UPDATE UserSessions SET IsOnline = FALSE WHERE SessionID = {session.Rows[0][1].ToString()}");
+                    databaseConnector.Request($"UPDATE UserSessions SET IsOnline = FALSE WHERE SessionID = {session.Rows[0][1]}");
                 }
+            }
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult SetOnlineStatus(string usertag){
+            string userId = databaseConnector.Request($"select UserID from Users where Usertag = '{usertag}';").Rows[0][0].ToString();
+            var session = databaseConnector.Request($"select IsOnline, SessionID from UserSessions where UserID = {userId} order by SessionID desc;");
+            if (session.Rows.Count > 0){
+                databaseConnector.Request($"UPDATE UserSessions SET IsOnline = TRUE WHERE SessionID = {session.Rows[0][1]}");
             }
             return Ok();
         }
