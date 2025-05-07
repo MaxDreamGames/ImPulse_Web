@@ -18,9 +18,15 @@ namespace ImPulse_WebApp.Controllers
         private string Usertag;
         public Dictionary<string, string> user = new Dictionary<string, string>();
 
-        public IActionResult All(string usertag)
+
+        public IActionResult Redirecting(string token){
+            ViewBag.token = token;
+            return View();
+        }
+
+        public IActionResult All(string token)
         {
-            Usertag = usertag;
+            Usertag = UsersHandler.ConnectedUsers.FirstOrDefault(u => u.Value.SessionToken == token).Key;
             user.Add("I", Usertag);
             return View(user);
         }
@@ -103,6 +109,7 @@ namespace ImPulse_WebApp.Controllers
         [HttpPost]
         public IActionResult LogOut(string usertag)
         {
+            UsersHandler.Sessions.Remove(UsersHandler.Sessions.FirstOrDefault(u => u.Value == usertag).Key, out string _);
             string userId = databaseConnector.Request($"select UserID from Users where Usertag = '{usertag}';").Rows[0][0].ToString();
             var session = databaseConnector.Request($"select IsOnline, SessionID from UserSessions where UserID = {userId} order by SessionID desc;");
             if (session.Rows.Count > 0)
@@ -117,10 +124,12 @@ namespace ImPulse_WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult SetOnlineStatus(string usertag){
+        public IActionResult SetOnlineStatus(string usertag)
+        {
             string userId = databaseConnector.Request($"select UserID from Users where Usertag = '{usertag}';").Rows[0][0].ToString();
             var session = databaseConnector.Request($"select IsOnline, SessionID from UserSessions where UserID = {userId} order by SessionID desc;");
-            if (session.Rows.Count > 0){
+            if (session.Rows.Count > 0)
+            {
                 databaseConnector.Request($"UPDATE UserSessions SET IsOnline = TRUE WHERE SessionID = {session.Rows[0][1]}");
             }
             return Ok();

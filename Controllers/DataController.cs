@@ -92,6 +92,12 @@ namespace ImPulse_WebApp.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        public IActionResult GetUsertagByToken(string token){
+            UsersHandler.Sessions.TryGetValue(token, out string usertag);
+            return Json(usertag);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

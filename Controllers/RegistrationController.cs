@@ -1,5 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 using ImPulse_WebApp.Models;
 using ImPulse_WebApp.Modules;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +39,7 @@ namespace ImPulse_WebApp.Controllers
                 // TODO: develope normal security checking mechanism
                 var user = databaseConnector.Request($"select * from Users where Usertag = '{usim.Usertag}' and PasswordHash = '{usim.Password}';");
                 int currentConnection = UsersHandler.ConnectedUsers.Count + 1;
+                string hashedUsertag = Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(usim.Usertag)));
                 if (user.Rows.Count > 0)
                 {
                     string usertag = user.Rows[0]["Usertag"]?.ToString() ?? string.Empty;
@@ -45,12 +48,14 @@ namespace ImPulse_WebApp.Controllers
                     {
                         Username = user.Rows[0]["Username"].ToString(),
                         UserId = int.Parse(user.Rows[0]["UserID"].ToString()),
-                        Usertag = usertag
+                        Usertag = usertag,
+                        SessionToken = hashedUsertag
                     };
                     UsersHandler.ConnectedUsers.TryAdd(usertag, userData);
+                    UsersHandler.Sessions.TryAdd(hashedUsertag, usertag);
                     // TODO: implement generation SessionToken
 
-                    return RedirectToAction("All", "Messanger", new { usertag = usertag });
+                    return RedirectToAction("Redirecting", "Messanger", new { token = hashedUsertag });
 
                 }
                 ModelState.AddModelError("", "Invalid usertag or password.");

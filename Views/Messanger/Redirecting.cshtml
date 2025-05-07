@@ -1,0 +1,12 @@
+﻿@{
+    var token = ViewBag.token;
+}
+
+<h1>Redirecting...</h1>
+
+<script>
+    window.onload = function() {
+        window.open('/Messanger/All?token=@token', '_blank').focus();
+        window.location.href = '/Registration/SignIn';
+    }
+</script>

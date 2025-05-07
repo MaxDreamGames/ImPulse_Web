@@ -1,5 +1,5 @@
 var userTable = null;
-var usertag = null;
+var globalUsertag = null;
 var hubConnection = null;
 var globalChatList = new Object();
 var isOnFocus = true;
@@ -9,8 +9,8 @@ var isRefreshed = false;
 sessionStorage.setItem("justReloaded", "false");
 
 window.addEventListener("beforeunload", function () {
-    sessionStorage.setItem("justReloaded", "true");
-    navigator.sendBeacon(`/Messanger/LogOut?usertag=${document.getElementById('current-usertag').innerText}`);
+    sessionStorage.setItem("usertag", usertag);
+    hubConnection.stop();
 })
 
 window.addEventListener('load', () => {
@@ -18,10 +18,9 @@ window.addEventListener('load', () => {
     handleResizing(screenWidth);
 
     const navEntries = performance.getEntriesByType('navigation');
-    if (sessionStorage.getItem("justReloaded") === "true") {
-        sessionStorage.setItem("justReloaded", "false");
-        console.log("Это была перезагрузка!");
-        // Выполни здесь нужную функцию
+    if (sessionStorage.getItem("usertag") != null) {
+        globalUsertag = sessionStorage.getItem("usertag");
+        document.getElementById('current-usertag').innerText = globalUsertag;
     }
 });
 
@@ -76,10 +75,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
-    usertag = document.getElementById('current-usertag').innerText;
-
+    if (sessionStorage.getItem("usertag") == null){
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        fetch('/Data/GetUsertagByToken?token=' + token)
+            .then(response => response.json()
+            .then(usertag => {
+                document.getElementById('current-usertag').innerText = usertag;
+            }));
+            globalUsertag = document.getElementById('current-usertag').innerText;
+            sessionStorage.setItem("usertag", globalUsertag);
+    }
+    globalUsertag = sessionStorage.getItem("usertag");
+    document.getElementById('current-usertag').innerText = globalUsertag;
+    
+    // console.log(usertag);
+    // if (usertag == '') {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const token = urlParams.get('token');
+    //     console.log(token);
+        
+    // }
     hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`/chathub?usertag=${usertag}`)
+        .withUrl(`/chathub?usertag=${globalUsertag}`)
         .build();
     hubConnection.on('ReceiveMsg', (user, message) => {
         receiveMessage(user, message);
@@ -116,20 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hubConnection.start().catch((err) => catchError(err));
 
-    window.addEventListener("beforeunload", () => {
-        hubConnection.stop(); // Корректное отключение
-    });
-
-
-    var usertag = document.getElementById('current-usertag').innerText;
-    fetch('/Data/GetUserFromDatabase?usertag=' + usertag)
+    fetch('/Data/GetUserFromDatabase?usertag=' + globalUsertag)
         .then(response => response.json())
         .then(user => {
             user = JSON.parse(user)[0];
             userTable = user;
 
         });
-    setChatList(usertag);
+    setChatList(globalUsertag);
 
 });
 
@@ -154,11 +166,12 @@ document.onclick = (e) => {
 
 function checkActiveSearchElement() {
     const searchList = document.getElementById('chat-search-list');
-    var chats = searchList.children;
-    for (var i = 0; i < chats.length; i++) {
-        var chat = chats[i];
+    let chats = searchList.children;
+    for (let i = 0; i < chats.length; i++) {
+        let chat = chats[i];
         if (chat.querySelector(':hover')) return true;
     }
+    
     return false;
 }
 document.getElementById('search-input').addEventListener('focusin', () => { toggleSearch(true); isSearching = true; });
@@ -244,7 +257,7 @@ function searchUsers() {
         }
 
         if (key.startsWith(searchValue) || user.toLowerCase().startsWith(searchValue)) {
-            var existingChat = null;
+            let existingChat = null;
             for (const chat of existingChats) {
                 if (chat.textContent == key) {
                     existingChat = chat.parentElement.parentElement.cloneNode(true);
@@ -295,6 +308,8 @@ function clearChatSearchItems() {
 function setChatList(usertag) {
     const chatList = document.getElementById('chat-list');
     const senderUsertag = document.getElementById('current-usertag').innerText;
+    console.log( document.getElementById('current-usertag'));
+    
     while (chatList.firstChild)
         chatList.removeChild(chatList.firstChild);
 
@@ -302,11 +317,13 @@ function setChatList(usertag) {
         .then(response => response.json())
         .then(table => {
             table = JSON.parse(table);
-            for (var i in table) {
+            for (let i in table) {
                 const item = table[i];
                 console.log(item);
-                var chatName = '';
-                var chattag = '';
+                let chatName = '';
+                let chattag = '';
+                console.log("Sender usertag: " + senderUsertag, "Global usertag: " + globalUsertag);
+                
                 fetch(`/Data/GetOpponentsByChat?chatID=${item['ChatID']}&senderUsertag=${senderUsertag}`)
                     .then(response => response.json())
                     .then(user => {
@@ -314,8 +331,8 @@ function setChatList(usertag) {
                         chatName = String(user[0]['Username']);
                         chattag = user[0]['Usertag'];
                         globalChatList[chattag] = item;
-                        var messageIcon = '';
-                        var unreadCount = '';
+                        let messageIcon = '';
+                        let unreadCount = '';
                         if (item['IsMine'] == 1) {
                             if (item['Status'] == 0)
                                 messageIcon = `
@@ -453,8 +470,8 @@ function setChatMessages(chatId) {
             messages = JSON.parse(messages);
             for (const i in messages) {
                 const message = messages[i];
-                var messageClass = '';
-                var messageIcon = '';
+                let messageClass = '';
+                let messageIcon = '';
                 if (message['SenderID'] == chatUserID) {
                     messageClass = 'friend-message';
                     try {
@@ -684,7 +701,7 @@ function receiveMessage(sender, message) {
     else {
         const chatItems = Array.from(document.querySelectorAll('.chatlist-usertag'))
             .find(el => el.textContent.trim() == sender);
-        var chatItem = null;
+        let chatItem = null;
         if (chatItems)
             chatItem = chatItems.parentElement;
         if (chatItem) {
@@ -789,14 +806,14 @@ function markAsRead(getterUsertag, msgID) {
 
 
 function setTimeStatus(datetime) {
-    var timeString = datetime.toString();
-    var date = timeString.split('T')[0];
-    var dates = date.split('-');
-    var time = timeString.split('T')[1];
-    var nowDate = new Date();
-    var msg = 'Last seen ';
-    var deltaDays = nowDate.getDate() - Number(dates[2]);
-    var deltaYears = nowDate.getFullYear() - Number(dates[0]);
+    let timeString = datetime.toString();
+    let date = timeString.split('T')[0];
+    let dates = date.split('-');
+    let time = timeString.split('T')[1];
+    let nowDate = new Date();
+    let msg = 'Last seen ';
+    let deltaDays = nowDate.getDate() - Number(dates[2]);
+    let deltaYears = nowDate.getFullYear() - Number(dates[0]);
     if (deltaDays == 0 && deltaYears == 0)
         msg += `today`;
     else if (deltaDays == 1 && deltaYears == 0)
@@ -818,9 +835,9 @@ function setAllNewMsgsRead() {
         .find(el => el.textContent.trim() == currentChatUsertag).parentElement;
     const unreadElem = chatItem.querySelector('.unread-icon');
     if (unreadElem.textContent == '') return;
-    var unreadMsgsCount = Number(unreadElem.textContent);
-    var messageItems = document.querySelectorAll('.friend-message');
-    for (var i = messageItems.length - 1; i >= 0; i--) {
+    let unreadMsgsCount = Number(unreadElem.textContent);
+    let messageItems = document.querySelectorAll('.friend-message');
+    for (let i = messageItems.length - 1; i >= 0; i--) {
         if (unreadMsgsCount <= 0) break;
 
         try {
@@ -840,9 +857,9 @@ function delay(ms) {
 }
 
 function spawnNotification(body, title) {
-    var options = {
+    let options = {
         body: body,
         icon: "/imgs/ImpulseIcon.png",
     };
-    var notification = new Notification(title, options);
+    let notification = new Notification(title, options);
 }
